@@ -48,17 +48,8 @@ namespace _1000000_in_1
                 }
 
                 try //przechwytywanie numeru z wejścia przy pomocy warunku FormatException zgłaszanego przez int.Parse()
-                {                   
-                    switch (int.Parse(bufor)-page) 
-                    {
-                        case 1:
-                            BUM(parametr, parametrPage); //inicjowanie gry BUM
-                            break;
-
-                        default:
-                            badValue = true; //zwrot informacji o złej wartości
-                            break;
-                    }//Wybór pozycji z menu
+                {
+                    badValue = CaseMenu(int.Parse(bufor) - page, parametr, parametrPage);               
                 }
                 catch (FormatException)
                 {
@@ -106,7 +97,7 @@ namespace _1000000_in_1
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine($"[{page + 1}] BUM - gracze naprzemiennie liczą od {parametrPage}, w momencie gdy jakaś liczba jest podzielna/zawiera w sobie {parametr} piszą \"BUM\"");
-            Console.WriteLine($"[{page + 2}]");
+            Console.WriteLine($"[{page + 2}] Rachmistrz - program losuje {parametrPage} razy liczby od 1-9, a twoim zadaniem jest podać poprawną sumę.");
             Console.WriteLine($"[{page + 3}]");
             Console.WriteLine($"[{page + 4}]");
             Console.WriteLine($"[{page + 5}]");
@@ -141,7 +132,23 @@ namespace _1000000_in_1
             return badValue;
         } //Stały element interfejsu (Flaga informująca o tym czy wpisana wartość była błędna, parametr do gier, numer strony)
 
+        static bool CaseMenu(int n, int parametr, int parametrPage)
+        {
+            switch (n)
+            {
+                case 1:
+                    BUM(parametr, parametrPage); //inicjowanie gry BUM
+                    break;
 
+                case 2:
+                    RACHMISTRZ(parametrPage);
+                    break;
+
+                default:
+                    return true; //zwrot informacji o złej wartości
+            }//Wybór pozycji z menu
+            return false;
+        }//Wybór gry. funkcja wyciągnięta, aby wraz z rozwojem ilości gier nie ingerować w główną strukture programu main
 
         static void BUM(int bumINT, int Start)
         {
@@ -246,7 +253,7 @@ namespace _1000000_in_1
                 Console.WriteLine("Chcesz spróbować jeszcze raz?");
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.WriteLine("Odpowiedz tak/nie");
-            Reload:
+                Reload:
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 string buforYN = Console.ReadLine();
                 if (buforYN == "tak")
@@ -264,5 +271,67 @@ namespace _1000000_in_1
             }
 
         } //Gra w BUM
+
+        static void RACHMISTRZ(int n)
+        {
+            while (true)
+            {
+            Game:
+
+                Rachmistrz.Regulamin(n);
+
+                Console.WriteLine("Start");
+                Console.ForegroundColor = ConsoleColor.White;
+                int CorrectAnswer = Rachmistrz.Game(n);
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine();
+                Console.WriteLine("Stop");
+                Console.WriteLine();
+
+                Odpowiedz:
+                Console.Write("Twoja odpowiedź: ");
+                Console.ForegroundColor = ConsoleColor.White;
+
+                try
+                {
+                    if (CorrectAnswer == int.Parse(Console.ReadLine()))
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Brawo!, jest to poprawna odpowiedź");
+                    }
+                    else
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Niestety, jest to błędna odpowiedź.");
+                        Console.WriteLine("Powinno być: " + CorrectAnswer);
+                    }
+                }
+                catch(FormatException)
+                {
+                    Console.WriteLine( );                    
+                    Console.WriteLine("Wpisz liczbę!");
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    goto Odpowiedz;
+                }
+
+                Console.WriteLine("Chcesz spróbować jeszcze raz?");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("Odpowiedz tak/nie");
+                Reload:
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                string buforYN = Console.ReadLine();
+                if (buforYN == "tak")
+                {
+                    Console.Clear();
+                    Console.WriteLine("To w ramach powtórzenia...");
+                    Thread.Sleep(2000);
+                    goto Game;
+                }
+                else if (buforYN == "nie") break;
+                else { Console.WriteLine("Wybierz tak lub nie."); goto Reload; }
+
+            }
+        }
     }
 }

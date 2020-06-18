@@ -68,4 +68,5 @@ namespace ClassLibrary
             return "BUM";
         } //Zwraca odpowiedź koputera, taką że nie zawsze musi być poprawna. (Wartość będąca liczbą "BUM", aktualna wartość Licznika, Wartość Startowa)
     }
+
 }
