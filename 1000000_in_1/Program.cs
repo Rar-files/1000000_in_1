@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.Security;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Xml;
@@ -18,48 +20,26 @@ namespace _1000000_in_1
             int page = 0;
             while (true)
             {
-                badValue = startMsg(badValue);
-
                 int parametr = rnd.Next(2, 11);
-                int parametr2 = (page + 10) / 10;
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine($"[{page + 1}] BUM - gracze naprzemiennie liczą od {parametr2}, w momencie gdy jakaś liczba jest podzielna lub zawiera w sobie {parametr} piszą \"BUM\"");
-                Console.WriteLine($"[{page + 2}]");
-                Console.WriteLine($"[{page + 3}]");
-                Console.WriteLine($"[{page + 4}]");
-                Console.WriteLine($"[{page + 5}]");
-                Console.WriteLine($"[{page + 6}]");
-                Console.WriteLine($"[{page + 7}]");
-                Console.WriteLine($"[{page + 8}]");
-                Console.WriteLine($"[{page + 9}]");
-                Console.WriteLine($"[{page + 10}]");
+                int parametrPage = page / 10 + 1;
 
-                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                badValue = StartMsg(badValue,parametr,page);
 
                 string bufor;
                 if (page == 0)
                 {
-                    Console.WriteLine($"              Page {(page + 10) / 10} > ");
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine("Aby zmienić stronę wpisz \">\"");
                     bufor = Console.ReadLine();
                     if (bufor == ">")
                         page += 10;
-                }
+                } //Zmiana strony
                 else if (page == 100000)
                 {
-                    Console.WriteLine($"            < Page {(page + 10) / 10}   ");
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine("Aby zmienić stronę wpisz \"<\"");
                     bufor = Console.ReadLine();
                     if (bufor == "<")
                         page -= 10;
                 }
                 else
                 {
-                    Console.WriteLine($"            < Page {(page + 10) / 10} > ");
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine("Aby zmienić stronę wpisz \"<\" lub \">\"");
                     bufor = Console.ReadLine();
                     if (bufor == "<")
                         page -= 10;
@@ -67,18 +47,18 @@ namespace _1000000_in_1
                         page += 10;
                 }
 
-                try
+                try //przechwytywanie numeru z wejścia przy pomocy warunku FormatException zgłaszanego przez int.Parse()
                 {                   
-                    switch (int.Parse(bufor)-page)
+                    switch (int.Parse(bufor)-page) 
                     {
                         case 1:
-                            BUM(parametr, parametr2);
+                            BUM(parametr, parametrPage); //inicjowanie gry BUM
                             break;
 
                         default:
-                            badValue = true;
+                            badValue = true; //zwrot informacji o złej wartości
                             break;
-                    }
+                    }//Wybór pozycji z menu
                 }
                 catch (FormatException)
                 {
@@ -90,8 +70,10 @@ namespace _1000000_in_1
 
         }
 
-        static bool startMsg(bool badValue)
+        static bool StartMsg(bool badValue, int parametr, int page)
         {
+            int parametrPage = page / 10 + 1;
+
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write("Witaj w istnej ");
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
@@ -122,19 +104,57 @@ namespace _1000000_in_1
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("Aby dokonać wyboru, wpisz Id gry");
 
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine($"[{page + 1}] BUM - gracze naprzemiennie liczą od {parametrPage}, w momencie gdy jakaś liczba jest podzielna/zawiera w sobie {parametr} piszą \"BUM\"");
+            Console.WriteLine($"[{page + 2}]");
+            Console.WriteLine($"[{page + 3}]");
+            Console.WriteLine($"[{page + 4}]");
+            Console.WriteLine($"[{page + 5}]");
+            Console.WriteLine($"[{page + 6}]");
+            Console.WriteLine($"[{page + 7}]");
+            Console.WriteLine($"[{page + 8}]");
+            Console.WriteLine($"[{page + 9}]");
+            Console.WriteLine($"[{page + 10}]");
+
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+
+            if (page == 0)
+            {
+                Console.WriteLine($"              Page {parametrPage} > ");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("Aby zmienić stronę wpisz \">\"");
+            }
+            else if (page == 100000)
+            {
+                Console.WriteLine($"            < Page {parametrPage}   ");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("Aby zmienić stronę wpisz \"<\"");
+            }
+            else
+            {
+                Console.WriteLine($"            < Page {parametrPage} > ");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("Aby zmienić stronę wpisz \"<\" lub \">\"");
+
+            }
+
             return badValue;
-        }
+        } //Stały element interfejsu (Flaga informująca o tym czy wpisana wartość była błędna, parametr do gier, numer strony)
+
+
 
         static void BUM(int bumINT, int Start)
         {
             int pktSI = 0;
             int pktPlayer = 0;
 
+            Game:
+
             BumGame.Regulamin(Start,bumINT);
 
             while (true)
             {
-                for (int i = Start; true; i += 2)
+                for (int i = Start; true; i++)
                 {
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.DarkMagenta;
@@ -142,94 +162,107 @@ namespace _1000000_in_1
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine();
 
-                    string bufor = BumGame.Si(bumINT, i, Start);
+                    string bufor;
+                    bool flagaSI = false;
 
-                    Console.WriteLine(bufor);
-                    Thread.Sleep(500);
+                    if (i%2!=0)
+                    {
+                        Console.Write("Moja kolej: ");
+                        bufor = BumGame.Si(bumINT, i, Start);
+                        Console.WriteLine(bufor);
+                        Thread.Sleep(500);
+                        flagaSI = true;
+                    } //Przechwycenie testu
+                    else
+                    {
+                        Console.Write("Twoja kolej: ");
+                        bufor = Console.ReadLine();
+                    }
+                    
 
                     try
                     {
-                        if (BumGame.Game(bumINT, int.Parse(bufor)))
+                        if (BumGame.IfBUM(bumINT, int.Parse(bufor)))
                         {
-                            Console.WriteLine("ojjj, moja wina :/ punkty lecą do cb.");
-                            pktPlayer++;
-                            Console.ReadKey();
-                            break;
+                            goto Lose;
                         }
-                        //else if (int.Parse(bufor)!=i)
-                        //{
-                        //    Console.WriteLine("ojjj, moja wina :/ punkty lecą do cb.");
-                        //    pktPlayer++;
-                        //    Console.ReadKey();
-                        //    break;
-                        //}
+                        else if (int.Parse(bufor) == i) { goto Continue; }
+                        else
+                        {
+                            goto Lose;
+                        }
 
                     }
 
                     catch (FormatException)
                     {
-                        if (bufor != "BUM")
+                        if (BumGame.IfBUM(bumINT, i))
                         {
-                            Console.WriteLine("ojjj, moja wina :/ punkty lecą do cb.");
-                            pktPlayer++;
-                            Console.ReadKey();
-                            break;                            
+                            if (bufor != "BUM")
+                            {
+                                goto Lose;
+                            }
+                            goto Continue;
+                        }
+                        else
+                        {
+                            goto Lose;
                         }
                     }
 
-                    
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                    Console.WriteLine($"Aktualny wynik: Komputer {pktSI}:{pktPlayer} Gracz");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine();
-
-                    bufor = Console.ReadLine();
-
-                    try
+                    Lose:
+                    if (flagaSI)
                     {
-                        if (BumGame.Game(bumINT, int.Parse(bufor)))
-                        {
-                            Console.WriteLine("Ha! Mam cię, ta runda jest moja");
-                            pktSI++;
-                            Console.ReadKey();
-                            break;
-                        }
-                        //else if (int.Parse(bufor) != i+1)
-                        //{
-                        //    Console.WriteLine("Ha! Mam cię, ta runda jest moja");
-                        //    pktSI++;
-                        //    Console.ReadKey();
-                        //    break;
-                        //}
+                        Console.WriteLine("ojjj, moja wina :/ punkty lecą do cb.");
+                        pktPlayer++;
+                        Console.ReadKey();
+                        break;
                     }
-
-                    catch(FormatException)
+                    else
                     {
-                        if(bufor != "BUM")
-                        {
-                            Console.WriteLine("Ha! Mam cię, ta runda jest moja");
-                            pktSI++;
-                            Console.ReadKey();
-                            break;
-                        }
+                        Console.WriteLine("Ha! Mam cię, ta runda jest moja");
+                        pktSI++;
+                        Console.ReadKey();
+                        break;
                     }
 
-                    //int bufor = BumGame.Game(bumINT);
-                    //if (bufor == 1)
-                    //{
-                    //    Console.WriteLine("ojjj, moja wina :/ punkty lecą do cb.");
-                    //    pktPlayer++;
-                    //    break;
-                    //}
-                    //else if (bufor == 2)
+                Continue:;
 
                 }
 
-                if (pktSI == 3) { Console.WriteLine("Wygrałem!"); break; }
-                if (pktPlayer == 3) { Console.WriteLine("Gratuluje wygranej!"); break; }
+                if (pktSI == 3)
+                {                    
+                    Console.WriteLine("Wygrałem!");
+                    goto Win;
+                }
+                if (pktPlayer == 3)
+                {
+                    Console.WriteLine("Gratuluje wygranej!");
+                    goto Win;
+                }
+                else goto Rerun;
+
+                Win:
+                Console.WriteLine("Chcesz spróbować jeszcze raz?");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("Odpowiedz tak/nie");
+            Reload:
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                string buforYN = Console.ReadLine();
+                if (buforYN == "tak")
+                {
+                    pktPlayer = 0;
+                    pktSI = 0;
+                    Console.Clear();
+                    Console.WriteLine("To w ramach powtórzenia...");
+                    Thread.Sleep(2000);
+                    goto Game; }
+                else if (buforYN == "nie") break;
+                else { Console.WriteLine("Wybierz tak lub nie."); goto Reload; }
+
+                Rerun:;
             }
 
-        }
+        } //Gra w BUM
     }
 }

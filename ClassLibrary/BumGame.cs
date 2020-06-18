@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary
 {
-    public class BumGame
+    public class BumGame //Zestaw metod gry "BUM"
     {
         public static void Regulamin(int Start, int bumINT)
         {
@@ -27,12 +27,15 @@ namespace ClassLibrary
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Skoro wyjaśniliśmy sobie zasady, pozwól że ja zacznę.");
+            if(Start%2!=0)
+                Console.WriteLine("Skoro wyjaśniliśmy sobie zasady, pozwól że ja zacznę.");
+            else
+                Console.WriteLine("Skoro wyjaśniliśmy sobie zasady, zaczynaj!.");
             Console.WriteLine("Gotowy?");
             Console.ReadKey();
-        }
+        } //Wyświetla zestaw startowych komunikatów na konsoli (Wartość będąca liczbą "BUM", Wartość Startowa)
 
-        public static bool Game(int bumINT, int test)
+        public static bool IfBUM(int bumINT, int test) //Zwraca "true", gdy wpisany test powinien być być BUM. (Wartość będąca liczbą "BUM", Test)
         {
             if (test % bumINT == 0) return true;
 
@@ -51,18 +54,18 @@ namespace ClassLibrary
             Random nerfSi = new Random();
 
             int bufor = nerfSi.Next(1, 11);
-            if(bufor<7)
+            if(bufor<9)
             {
-                if (BumGame.Game(bumINT, correctValue)) return "BUM";
+                if (BumGame.IfBUM(bumINT, correctValue)) return "BUM";
                 return correctValue.ToString();
             }
             else if(bufor==10)
             {
-                return nerfSi.Next(Start, 1000000).ToString();
+                return nerfSi.Next(Start, correctValue+10).ToString();
             }
 
-            if (BumGame.Game(bumINT, correctValue)) return correctValue.ToString();
+            if (BumGame.IfBUM(bumINT, correctValue)) return correctValue.ToString();
             return "BUM";
-        }
+        } //Zwraca odpowiedź koputera, taką że nie zawsze musi być poprawna. (Wartość będąca liczbą "BUM", aktualna wartość Licznika, Wartość Startowa)
     }
 }
