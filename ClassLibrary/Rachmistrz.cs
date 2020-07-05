@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading;
 
 namespace ClassLibrary
 {
     public class Rachmistrz
     {
+        public static string RndNumbers { get; private set; } //Wylosowane liczby
+
         static public void Regulamin(int n)
         {
             Console.Clear();
@@ -33,19 +31,20 @@ namespace ClassLibrary
             Console.WriteLine("Powodzenia!");
             Thread.Sleep(1000);
             Console.Clear();
-        }
+        } //Regulamin Gry
 
         static public int Game(int n)
         {
+            RndNumbers = "";
             Random rnd = new Random();
             int suma = 0;
             for(int i = 0; i<n; i++)
             {
                 int bufor = rnd.Next(1, 10);
-                Console.Write(bufor + ", ");
+                RndNumbers += bufor + ", ";
                 suma += bufor;
             }
             return suma;
-        }
+        } //Wylosowuje n liczb i zapisuje je do rndNumbers oraz zwraca poprawny odpowiedź
     }
 }

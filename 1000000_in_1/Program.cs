@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Net.Security;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Xml;
+
 using ClassLibrary;
 
 namespace _1000000_in_1
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Random rnd = new Random();
             int page = 0;
@@ -51,7 +44,7 @@ namespace _1000000_in_1
 
         }
 
-        static void GUI(string badValue, int parametr, int page)
+        private static void GUI(string badValue, int parametr, int page)
         {
             int parametrPage = page / 10 + 1;
 
@@ -85,7 +78,7 @@ namespace _1000000_in_1
             Console.WriteLine($"[{page + 1}] BUM - gracze naprzemiennie liczą od {parametrPage}, w momencie gdy jakaś liczba jest podzielna/zawiera w sobie {parametr} piszą \"BUM\"");
             Console.WriteLine($"[{page + 2}] Rachmistrz - program losuje {parametrPage} razy liczby od 1-9, a twoim zadaniem jest podać poprawną sumę.");
             Console.WriteLine($"[{page + 3}]");
-            Console.WriteLine($"[{page + 4}]");
+            Console.WriteLine($"[{page + 4}] Simon Mówi - ");
             Console.WriteLine($"[{page + 5}]");
             Console.WriteLine($"[{page + 6}]");
             Console.WriteLine($"[{page + 7}]");
@@ -118,7 +111,7 @@ namespace _1000000_in_1
 
         } //Stały element interfejsu (Informacja o błędzie, parametr do gier, numer strony)
 
-        static void GUIend()
+        private static void GUIend()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -137,6 +130,6 @@ namespace _1000000_in_1
                 else Console.WriteLine("Wybierz \"tak\" lub \"nie\".");
             }
 
-        }
+        } //GUI zakmknięcia,
     }
 }

@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Threading;
 
 namespace ClassLibrary
 {
     public class GameList
     {
+        public static string Cin { private set; get; } //wartość wpisana na wejściu
+
         public static int List(int parametr, int page)
         {
             int parametrPage = page / 10 + 1;
-            string bufor;
 
-            bufor = Console.ReadLine();
+            Cin = Console.ReadLine();
 
             try //przechwytywanie numeru z wejścia przy pomocy warunku FormatException zgłaszanego przez int.Parse()
             {
-                CaseMenu(int.Parse(bufor) - page, parametr, parametrPage);
+                CaseMenu(int.Parse(Cin) - page, parametr, parametrPage);
             }
             catch (ArgumentException)
             {
@@ -27,7 +26,7 @@ namespace ClassLibrary
             catch (FormatException)
             {
                 
-                if (bufor == ">")
+                if (Cin == ">")
                 {
                     if (page == 100000)
                         goto Warunek;
@@ -37,7 +36,7 @@ namespace ClassLibrary
                         goto BrakWarunku;
                     }
                 } //Zmiana strony
-                else if (bufor == "<")
+                else if (Cin == "<")
                 {
                     if (page == 0)
                         goto Warunek;
@@ -47,7 +46,7 @@ namespace ClassLibrary
                         goto BrakWarunku;
                     }
                 }
-                else if (bufor == "x")
+                else if (Cin == "x")
                 {
                     throw new Exception("Koniec pracy programu.");
                 }
@@ -69,9 +68,9 @@ namespace ClassLibrary
             }
 
             return page;
-        }
+        } //Logika menu
 
-        static void CaseMenu(int n, int parametr, int parametrPage)
+        private static void CaseMenu(int n, int parametr, int parametrPage)
         {
             switch (n)
             {
@@ -83,13 +82,17 @@ namespace ClassLibrary
                     RACHMISTRZ(parametrPage);
                     break;
 
+                case 4:
+                    SIMON(parametrPage);
+                    break;
+
                 default:
                     throw new ArgumentException("Brak Takiej Gry.");
                      //zwrot informacji o złej wartości
             }//Wybór pozycji z menu
-        }//Wybór gry. funkcja wyciągnięta, aby wraz z rozwojem ilości gier nie ingerować w główną strukture programu main
+        }//Wybór gry.
 
-        static void BUM(int bumINT, int Start)
+        private static void BUM(int bumINT, int Start)
         {
             int pktSI = 0;
             int pktPlayer = 0;
@@ -212,17 +215,17 @@ namespace ClassLibrary
 
         } //Gra w BUM
 
-        static void RACHMISTRZ(int n)
+        private static void RACHMISTRZ(int n)
         {
             while (true)
             {
-            Game:
 
                 Rachmistrz.Regulamin(n);
 
                 Console.WriteLine("Start");
                 Console.ForegroundColor = ConsoleColor.White;
                 int CorrectAnswer = Rachmistrz.Game(n);
+                Console.WriteLine(Rachmistrz.RndNumbers);
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine();
                 Console.WriteLine("Stop");
@@ -266,13 +269,75 @@ namespace ClassLibrary
                     Console.Clear();
                     Console.WriteLine("To w ramach powtórzenia...");
                     Thread.Sleep(2000);
-                    goto Game;
                 }
                 else if (buforYN == "nie") break;
                 else { Console.WriteLine("Wybierz tak lub nie."); goto Reload; }
 
             }
-        }
+        } //Gra w Rachmistrz 
 
+        private static void SIMON(int n)
+        {
+            while (true)
+            {
+
+                Simon.Regulamin(n);
+
+                for (int i = 0; i < n; i++)
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("Simon: ");
+                    string bufor = Simon.simonSay().ToString();
+                    string[] colors = Enum.GetNames(typeof(Simon.color));
+
+                    if (bufor == colors[0]) { Console.ForegroundColor = ConsoleColor.Red; }
+                    else if (bufor == colors[1]) { Console.ForegroundColor = ConsoleColor.Green; }
+                    else if (bufor == colors[2]) { Console.ForegroundColor = ConsoleColor.Blue; }
+                    else if (bufor == colors[3]) { Console.ForegroundColor = ConsoleColor.Yellow; }
+                    Console.WriteLine(bufor);
+                    Thread.Sleep(500);
+                    Console.Clear();
+                }
+                Console.ForegroundColor = ConsoleColor.White;
+                for (int i = 0; i < n; i++)
+                {
+                    Console.Write($"{i + 1} kolor: ");
+                    try
+                    {
+                        if (!Simon.playerSaid(Console.ReadLine()))
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            Console.WriteLine("Zła odpowiedź :/");
+                            goto End;
+                        }
+                    }
+                    catch (ArgumentException)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.WriteLine("Zła odpowiedź, to nie jest nazwa koloru :/");
+                        goto End;
+                    }
+                }
+
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("Brawo! Dobra pamięć ;)");
+            End:
+                Console.WriteLine("Chcesz spróbować jeszcze raz?");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("Odpowiedz tak/nie");
+            Reload:
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                string buforYN = Console.ReadLine();
+                if (buforYN == "tak")
+                {
+                    Console.Clear();
+                    Console.WriteLine("To w ramach powtórzenia...");
+                    Thread.Sleep(2000);
+                }
+                else if (buforYN == "nie") break;
+                else { Console.WriteLine("Wybierz tak lub nie."); goto Reload; }
+            }
+
+        }
     }
 }
