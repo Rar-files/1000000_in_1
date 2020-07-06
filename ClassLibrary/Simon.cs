@@ -11,11 +11,11 @@ namespace ClassLibrary
 {
     public class Simon
     {
-        public enum Color{
+        public enum color{
             r,g,b,y
         }
 
-        static Queue<Color> simonSaid = new Queue<Color>();
+        static Queue<color> simonSaid = new Queue<color>();
 
         static Random RndColor = new Random();
         static color RandomEnumValue<color>()
@@ -57,19 +57,19 @@ namespace ClassLibrary
             Console.Clear();
         } //Regulamin Gry
 
-        static public Color SimonSay()
+        static public color simonSay()
         {
-            Color bufor;
-            bufor = RandomEnumValue<Color>();
+            color bufor;
+            bufor = RandomEnumValue<color>();
             simonSaid.Enqueue(bufor);
             return bufor;
         }
 
-        static public bool PlayerSaid(string test)
+        static public bool playerSaid(string test)
         {
             if (test == simonSaid.Dequeue().ToString())
                 return true;
-            Enum.Parse(typeof(Color), test);
+            Enum.Parse(typeof(color), test);
             return false;
         }
     }

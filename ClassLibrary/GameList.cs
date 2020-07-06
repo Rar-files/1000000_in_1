@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Media;
 using System.Threading;
 
 namespace ClassLibrary
@@ -11,7 +10,7 @@ namespace ClassLibrary
 
         public static int List(int parametr, int page)
         {
-            int parametrPage = page / 5 + 1;
+            int parametrPage = page / 10 + 1;
 
             Cin = Console.ReadLine();
 
@@ -33,7 +32,7 @@ namespace ClassLibrary
                         goto Warunek;
                     else
                     {
-                        page += 5;
+                        page += 10;
                         goto BrakWarunku;
                     }
                 } //Zmiana strony
@@ -43,7 +42,7 @@ namespace ClassLibrary
                         goto Warunek;
                     else
                     {
-                        page -= 5;
+                        page -= 10;
                         goto BrakWarunku;
                     }
                 }
@@ -81,10 +80,6 @@ namespace ClassLibrary
 
                 case 2:
                     RACHMISTRZ(parametrPage);
-                    break;
-
-                case 3:
-                    FUNDELS(parametrPage);
                     break;
 
                 case 4:
@@ -281,154 +276,19 @@ namespace ClassLibrary
             }
         } //Gra w Rachmistrz 
 
-        private static void FUNDELS(int n)
-        {
-            n++;
-            FundelsGame.Regulamin(n);
-            FundelsGame.InicjowanieTalli();
-            Game:
-            FundelsGame.Tasowanie();
-            int[] table = FundelsGame.InicjowanieStolu(n);
-
-            for (int tura = 0; tura < (FundelsGame.taliaGracz.Count + FundelsGame.taliaSi.Count)/2; tura++)
-            {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("Karty na stole: ");
-                Console.WriteLine();
-
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                for (int i = 0; i < n; i++)
-                {
-                    Console.Write(table[i] + " ");
-                }
-                Console.WriteLine();
-
-                Console.ForegroundColor = ConsoleColor.Gray;
-                for (int i = 0; i < n; i++)
-                {
-                    Console.Write("^ ");
-                }
-                Console.WriteLine();
-                for (int i = 0; i < n; i++)
-                {
-                    Console.Write(i + " ");
-                }
-                Console.WriteLine(); Console.WriteLine();
-
-            Player:
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine($"Twoja karta: {FundelsGame.taliaGracz[tura]}");
-                Console.Write("Twoja odpowiedź: ");
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.Write("(podaj id karty którą chcesz zamienić) ");
-                int test = 0;
-                try
-                {
-                    test = int.Parse(Console.ReadLine());
-                    if (test > n)
-                    {
-                        Console.WriteLine("Wpisana wartość wykracza poza zakres id, spróbuj ponownie.");
-                        goto Player;
-                    }
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Wpisana wartość nie jest liczbą, spróbuj ponownie.");
-                    Console.WriteLine();
-                    goto Player;
-                }
-
-                try
-                {
-                    table = FundelsGame.TableCards(table, test, FundelsGame.taliaGracz[tura]);
-                }
-
-                catch (ArgumentException)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Ha! mam cię, niestety nie udało ci się :/");
-                    goto Endgame;
-                }
-
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("Karty na stole: ");
-                Console.WriteLine();
-
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                for (int i = 0; i < n; i++)
-                {
-                    Console.Write(table[i] + " ");
-                }
-                Console.WriteLine();
-
-                Console.ForegroundColor = ConsoleColor.Gray;
-                for (int i = 0; i < n; i++)
-                {
-                    Console.Write("^ ");
-                }
-                Console.WriteLine();
-                for (int i = 0; i < n; i++)
-                {
-                    Console.Write(i + " ");
-                }
-                Console.WriteLine(); Console.WriteLine();
-
-                test = FundelsGame.Si(table, FundelsGame.taliaSi[tura]);
-
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine($"Moja karta: {FundelsGame.taliaSi[tura]}");
-                Console.Write($"Moja odpowiedź: ");
-                Thread.Sleep(1000);
-                Console.WriteLine(test);
-                Thread.Sleep(2000);
-
-                try
-                {
-                    table = FundelsGame.TableCards(table, test, FundelsGame.taliaSi[tura]);
-                }
-                catch (ArgumentException)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("ah! niestety, moja wina :/");
-                    goto Endgame;
-                }
-
-            }
-            Console.WriteLine("Koniec kart, a więc Remis");
-        Endgame:
-            Console.WriteLine();
-            Console.WriteLine("Chcesz spróbować jeszcze raz?");
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("Odpowiedz tak/nie");
-        Reload:
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            string buforYN = Console.ReadLine();
-            if (buforYN == "tak")
-            {
-                Console.Clear();
-                Console.WriteLine("To w ramach powtórzenia...");
-                Thread.Sleep(2000);
-                goto Game;
-            }
-            else if (buforYN != "nie") { Console.WriteLine("Wybierz tak lub nie."); goto Reload; };
-        }
-
         private static void SIMON(int n)
         {
             while (true)
             {
 
                 Simon.Regulamin(n);
-                Console.ForegroundColor = ConsoleColor.White;
 
                 for (int i = 0; i < n; i++)
-                {                    
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.Write("Simon: ");
-                    string bufor = Simon.SimonSay().ToString();
-                    string[] colors = Enum.GetNames(typeof(Simon.Color));
+                    string bufor = Simon.simonSay().ToString();
+                    string[] colors = Enum.GetNames(typeof(Simon.color));
 
                     if (bufor == colors[0]) { Console.ForegroundColor = ConsoleColor.Red; }
                     else if (bufor == colors[1]) { Console.ForegroundColor = ConsoleColor.Green; }
@@ -437,10 +297,6 @@ namespace ClassLibrary
                     Console.WriteLine(bufor);
                     Thread.Sleep(500);
                     Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write("Simon: ");
-                    Thread.Sleep(200);
-                    Console.Clear();
                 }
                 Console.ForegroundColor = ConsoleColor.White;
                 for (int i = 0; i < n; i++)
@@ -448,7 +304,7 @@ namespace ClassLibrary
                     Console.Write($"{i + 1} kolor: ");
                     try
                     {
-                        if (!Simon.PlayerSaid(Console.ReadLine()))
+                        if (!Simon.playerSaid(Console.ReadLine()))
                         {
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
                             Console.WriteLine("Zła odpowiedź :/");
@@ -476,12 +332,12 @@ namespace ClassLibrary
                 {
                     Console.Clear();
                     Console.WriteLine("To w ramach powtórzenia...");
-                    Thread.Sleep(500);
+                    Thread.Sleep(2000);
                 }
                 else if (buforYN == "nie") break;
                 else { Console.WriteLine("Wybierz tak lub nie."); goto Reload; }
             }
 
-        } //Gra w SimonMowi
+        }
     }
 }
