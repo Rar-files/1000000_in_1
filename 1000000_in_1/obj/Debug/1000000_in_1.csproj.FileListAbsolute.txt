@@ -1,0 +1,10 @@
+C:\Users\dwidl\source\repos\1000000_in_1\1000000_in_1\bin\Debug\1000000_in_1.exe.config
+C:\Users\dwidl\source\repos\1000000_in_1\1000000_in_1\bin\Debug\1000000_in_1.exe
+C:\Users\dwidl\source\repos\1000000_in_1\1000000_in_1\bin\Debug\1000000_in_1.pdb
+C:\Users\dwidl\source\repos\1000000_in_1\1000000_in_1\bin\Debug\ClassLibrary.dll
+C:\Users\dwidl\source\repos\1000000_in_1\1000000_in_1\bin\Debug\ClassLibrary.pdb
+C:\Users\dwidl\source\repos\1000000_in_1\1000000_in_1\obj\Debug\1000000_in_1.csprojAssemblyReference.cache
+C:\Users\dwidl\source\repos\1000000_in_1\1000000_in_1\obj\Debug\1000000_in_1.csproj.CoreCompileInputs.cache
+C:\Users\dwidl\source\repos\1000000_in_1\1000000_in_1\obj\Debug\1000000_in_1.csproj.CopyComplete
+C:\Users\dwidl\source\repos\1000000_in_1\1000000_in_1\obj\Debug\1000000_in_1.exe
+C:\Users\dwidl\source\repos\1000000_in_1\1000000_in_1\obj\Debug\1000000_in_1.pdb

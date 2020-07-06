@@ -1,0 +1,6 @@
+C:\Users\dwidl\source\repos\1000000_in_1\ClassLibrary\bin\Debug\ClassLibrary.dll
+C:\Users\dwidl\source\repos\1000000_in_1\ClassLibrary\bin\Debug\ClassLibrary.pdb
+C:\Users\dwidl\source\repos\1000000_in_1\ClassLibrary\obj\Debug\ClassLibrary.csproj.CoreCompileInputs.cache
+C:\Users\dwidl\source\repos\1000000_in_1\ClassLibrary\obj\Debug\ClassLibrary.dll
+C:\Users\dwidl\source\repos\1000000_in_1\ClassLibrary\obj\Debug\ClassLibrary.pdb
+C:\Users\dwidl\source\repos\1000000_in_1\ClassLibrary\obj\Debug\ClassLibrary.csprojAssemblyReference.cache
