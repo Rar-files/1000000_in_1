@@ -46,7 +46,7 @@ namespace _1000000_in_1
 
         private static void GUI(string badValue, int parametr, int page)
         {
-            int parametrPage = page / 10 + 1;
+            int parametrPage = page / 5 + 1;
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write("Witaj w istnej ");
@@ -75,16 +75,12 @@ namespace _1000000_in_1
             Console.WriteLine("Aby dokonać wyboru, wpisz Id gry");
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine($"[{page + 1}] BUM - gracze naprzemiennie liczą od {parametrPage}, w momencie gdy jakaś liczba jest podzielna/zawiera w sobie {parametr} piszą \"BUM\"");
-            Console.WriteLine($"[{page + 2}] Rachmistrz - program losuje {parametrPage} razy liczby od 1-9, a twoim zadaniem jest podać poprawną sumę.");
-            Console.WriteLine($"[{page + 3}]");
-            Console.WriteLine($"[{page + 4}] Simon Mówi - ");
+            Console.WriteLine($"[{page + 1}] BUM - Gracze naprzemiennie liczą od {parametrPage}, w momencie gdy jakaś liczba jest podzielna/zawiera w sobie {parametr} piszą \"BUM\"");
+            Console.WriteLine($"[{page + 2}] Rachmistrz - Program losuje {parametrPage} razy liczby od 1-9, a twoim zadaniem jest podać poprawną sumę.");
+            Console.WriteLine($"[{page + 3}] Fundels - Gracze naprzemiennie starają się stworzyć większą liczbe składającą się z {parametrPage+1} liczb.");
+            Console.WriteLine($"[{page + 4}] Simon Mówi - Komputer tz. \"Simon\", wyświetla po koleji {parametrPage} razy kolor, a zadaniem gracza jest odtworzyć kolejność");
             Console.WriteLine($"[{page + 5}]");
-            Console.WriteLine($"[{page + 6}]");
-            Console.WriteLine($"[{page + 7}]");
-            Console.WriteLine($"[{page + 8}]");
-            Console.WriteLine($"[{page + 9}]");
-            Console.WriteLine($"[{page + 10}]");
+            Console.WriteLine(); Console.WriteLine(); Console.WriteLine();
 
             Console.ForegroundColor = ConsoleColor.DarkCyan;
 
@@ -94,7 +90,7 @@ namespace _1000000_in_1
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.WriteLine("Aby zmienić stronę wpisz \">\"");
             }
-            else if (page == 100000)
+            else if (page == 200000)
             {
                 Console.WriteLine($"            < Page {parametrPage}   ");
                 Console.ForegroundColor = ConsoleColor.DarkGray;
