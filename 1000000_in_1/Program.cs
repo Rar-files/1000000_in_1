@@ -79,8 +79,8 @@ namespace _1000000_in_1
             Console.WriteLine($"[{page + 2}] Rachmistrz - Program losuje {parametrPage} razy liczby od 1-9, a twoim zadaniem jest podać poprawną sumę.");
             Console.WriteLine($"[{page + 3}] Fundels - Gracze naprzemiennie starają się stworzyć większą liczbe składającą się z {parametrPage + 1} liczb.");
             Console.WriteLine($"[{page + 4}] Simon Mówi - Komputer tz. \"Simon\", wyświetla po koleji {parametrPage} razy kolor, a zadaniem gracza jest odtworzyć kolejność");
-            Console.WriteLine($"[{page + 5}]");
-            Console.WriteLine(); Console.WriteLine(); Console.WriteLine();
+            Console.WriteLine($"[{page + 5}] Squala - Wykonujesz {parametrPage} działań na podanych liczbach.");
+            Console.WriteLine();
 
             Console.ForegroundColor = ConsoleColor.DarkCyan;
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 using System.IO;
 using System.Media;
 using System.Threading;
@@ -89,6 +90,10 @@ namespace ClassLibrary
 
                 case 4:
                     SIMON(parametrPage);
+                    break;
+
+                case 5:
+                    SQUALA(parametrPage);
                     break;
 
                 default:
@@ -483,5 +488,129 @@ namespace ClassLibrary
             }
 
         } //Gra w SimonMowi
+
+        private static void SQUALA(int n)
+        {
+            while (true)
+            {
+                RegulaminSquala(n);
+
+                SqualaGame game = new SqualaGame();
+
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("Wybierz poziom trudności:");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("1. Bardzo Łatwy.");
+                Console.WriteLine("2. Łatwy.");
+                Console.WriteLine("3. Średni.");
+                Console.WriteLine("4. Trudny.");
+                Console.WriteLine("5. Bardzo Trudny.");
+
+                Poziom:
+                int poziom = 0;
+                try
+                {
+                    switch (int.Parse(Console.ReadLine()))
+                    {
+                        case 1:
+                            poziom = Trudność.BardzoŁatwy;
+                            break;
+
+                        case 2:
+                            poziom = Trudność.Łatwy;
+                            break;
+
+                        case 3:
+                            poziom = Trudność.Średni;
+                            break;
+
+                        case 4:
+                            poziom = Trudność.Trudny;
+                            break;
+
+                        case 5:
+                            poziom = Trudność.BardzoTrudny;
+                            break;
+
+                        default:
+                            Console.WriteLine("wpisz liczbę od 1 do 5");
+                            goto Poziom;
+                    }
+
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine("Powodzenia!");
+                    Thread.Sleep(1000);
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Wpisz liczbę!");
+                    goto Poziom;
+                }
+
+                for (int i = 0; i < n; i++)
+                {
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine(game.działanie);
+                    game.przeLosowanie(poziom);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine($"Pierwsza Liczba: {game.liczba1}.\nDruga Liczba: {game.liczba2}.");
+                    try
+                    {
+                        if (game.Wynik() == int.Parse(Console.ReadLine()))
+                        {
+                            Console.WriteLine("Brawo! poprawny wynik.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Niestety to nie jest poprawna odpowiedź.");
+                            break;
+                        }
+                    }
+                    catch(FormatException)
+                    {
+                        Console.WriteLine("Niestety to nie jest liczba,a więc to nie jest poprawna odpowiedź :/");
+                    }
+                }
+
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("Chcesz spróbować jeszcze raz?");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("Odpowiedz tak/nie");
+            Reload:
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                string buforYN = Console.ReadLine();
+                if (buforYN == "tak")
+                {
+                    Console.Clear();
+                    Console.WriteLine("To w ramach powtórzenia...");
+                    Thread.Sleep(1000);
+                }
+                else if (buforYN == "nie") break;
+                else { Console.WriteLine("Wybierz tak lub nie."); goto Reload; }
+            }
+        }
+
+        static public void RegulaminSquala(int n)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Witaj w grze Squala!");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine();
+            Console.WriteLine("Zasady są proste:");
+            Console.WriteLine($"1. Wyświetle Ci rodzaj działania, a potem {n} razy po dwie liczby");
+            Console.WriteLine("2. Twoim zadaniem będzie wykonanie tego działania na podanych liczbach.");
+            Console.WriteLine("3. Zanim przejdziemy do gry, będziesz miał możliwość wybrać poziom wpisując odpowiednią liczbę.");
+            Console.WriteLine();
+            Console.WriteLine("Gotowy?");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine("Po zapoznainu się z regulaminem naciśnij dowolny klawisz.");
+            Console.ReadKey();
+            Console.Clear();
+        } //Regulamin Gry
     }
 }

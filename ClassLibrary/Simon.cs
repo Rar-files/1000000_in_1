@@ -19,7 +19,8 @@ namespace ClassLibrary
         static Queue<Color> simonSaid = new Queue<Color>();
 
         static Random RndColor = new Random();
-        static color RandomEnumValue<color>()
+
+        static private color RandomEnumValue<color>()
         {
             var v = Enum.GetValues(typeof(color));
             return (color)v.GetValue(RndColor.Next(v.Length));
