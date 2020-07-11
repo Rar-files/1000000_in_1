@@ -14,7 +14,7 @@ namespace _1000000_in_1
 
             while (true)
             {
-                int parametr = rnd.Next(2, 11);
+                int parametr = rnd.Next(2, 10);
 
                 GUI(badValue, parametr, page);
                 badValue = "";
