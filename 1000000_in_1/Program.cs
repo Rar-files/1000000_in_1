@@ -21,6 +21,7 @@ namespace _1000000_in_1
 
                 try
                 {
+                    GameList.Cin = Console.ReadLine();
                     page = GameList.List(parametr, page);
                 }
 

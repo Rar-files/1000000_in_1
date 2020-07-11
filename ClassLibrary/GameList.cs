@@ -8,13 +8,11 @@ namespace ClassLibrary
 {
     public class GameList
     {
-        public static string Cin { private set; get; } //wartość wpisana na wejściu
+        public static string Cin { set; get; } //wartość wpisana na wejściu
 
         public static int List(int parametr, int page)
         {
             int parametrPage = page / 5 + 1;
-
-            Cin = Console.ReadLine();
 
             try //przechwytywanie numeru z wejścia przy pomocy warunku FormatException zgłaszanego przez int.Parse()
             {
